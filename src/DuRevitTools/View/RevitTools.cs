@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using Microsoft.VisualStudio.Debugger.Interop;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace DuRevitTools
 {
@@ -18,17 +20,32 @@ namespace DuRevitTools
     [Guid("ca14bc6a-efae-4d77-81be-efc3bbdd7866")]
     public class RevitTools : ToolWindowPane
     {
+        public RevitToolsControl RevitToolsControl { get; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RevitTools"/> class.
         /// </summary>
         public RevitTools() : base(null)
         {
             this.Caption = "RevitTools";
-
             // This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
             // we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on
             // the object returned by the Content property.
-            this.Content = new RevitToolsControl();
+
+            RevitToolsControl = new RevitToolsControl();
+
+
+            //view.ViewModel.VsDebugger = debugger;
+
+            this.Content = RevitToolsControl;
+        }
+
+        internal void InjectService(IVsDebugger vsDebugger)
+        {
+            if (RevitToolsControl != null)
+            {
+                RevitToolsControl.ViewModel.VsDebugger = vsDebugger;
+            }
         }
     }
 }

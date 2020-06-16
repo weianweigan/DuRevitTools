@@ -29,5 +29,15 @@ namespace DuRevitTools.Tests
 
             Assert.True(versions.First() == "2018");
         }
+
+        [Fact]
+        public void GetRevitProcessTest()
+        {
+            RevitToolsViewModel vm = new RevitToolsViewModel();
+
+            var ptr = vm.GetRevitProcessPtr();
+
+            Assert.NotNull(ptr);
+        }
     }
 }

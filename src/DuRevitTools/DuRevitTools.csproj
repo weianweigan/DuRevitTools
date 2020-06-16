@@ -58,6 +58,7 @@
     <Compile Include="ViewModel\RevitToolsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="resources\revit.png" />
     <Content Include="resources\RevitToolsCommand.png" />
     <VSCTCompile Include="DuRevitToolsPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>

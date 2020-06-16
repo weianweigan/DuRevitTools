@@ -12,41 +12,55 @@
              d:DesignHeight="600" d:DesignWidth="300"
              Name="MyToolWindow">
     <UserControl.Resources>
-        <Style TargetType="mah:Tile">
-            <Setter Property="Width" Value="120"/>
-            <Setter Property="Height" Value="120"/>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
+                <ResourceDictionary>
+                    <Style TargetType="mah:Tile">
+                        <Setter Property="Width" Value="120"/>
+                        <Setter Property="Height" Value="120"/>
+                    </Style>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel>
-           <WrapPanel DockPanel.Dock="Top" Margin="3">
+        <WrapPanel DockPanel.Dock="Top" Margin="3">
             <mah:Tile Title="AddinPath" Margin="3" Background="Teal" Command="{Binding AddinPathCommand}">
-            <StackPanel Width="100">
-                <icons:PackIconModern HorizontalAlignment="Center" Width="40" Height="40" Kind="Folder"/>
-                <ComboBox ItemsSource="{Binding RevitVersions}" SelectedItem="{Binding SelectVersion}"></ComboBox>
-            </StackPanel>
-        </mah:Tile>
-        <mah:Tile Title="Online help" Margin="3" Background="Gray" Command="{Binding OnlineHelpCommand}">
-            <icons:PackIconModern HorizontalAlignment="Center" Width="40" Height="40" Kind="BookPerspectiveHelp"/>
-        </mah:Tile>
-            <mah:Tile Title="*.addin Generator" Background="BurlyWood" Foreground="Black" Command="{Binding AddinGenerator}">
-                <icons:PackIconModern Kind="Add" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="40"/>
+                <StackPanel Width="100">
+                    <icons:PackIconModern HorizontalAlignment="Center" Margin="0,-30,0,0" Width="40" Height="40" Kind="Folder"/>
+                    <ComboBox ItemsSource="{Binding RevitVersions}" SelectedItem="{Binding SelectVersion}"></ComboBox>
+                </StackPanel>
             </mah:Tile>
-    </WrapPanel>
-        <Grid DockPanel.Dock="Bottom">
-            <StackPanel>
-                <Label>
-                    <Hyperlink NavigateUri="https://github.com/weianweigan/DuRevitTools" Click="Hyperlink_Click">DuRevitTools</Hyperlink>
-                </Label>
-                <Label>
-                    <Hyperlink  NavigateUri="https://github.com/jeremytammik/RevitLookup" Click="Hyperlink_Click">RevitLookup</Hyperlink>
-                </Label>
-                <Label>
-                    <Hyperlink NavigateUri="https://github.com/jeremytammik/VisualStudioRevitAddinWizard" Click="Hyperlink_Click">VisualStudioRevitAddinWizard By jeremytammik</Hyperlink>
-                </Label>
-                <Label>
-                    <Hyperlink NavigateUri="https://github.com/Andrey-Bushman/Revit2017AddInTemplateSet" Click="Hyperlink_Click">Revit2017AddInTemplateSet By Andrey-Bushman</Hyperlink>
-                </Label>
-            </StackPanel>
+            <mah:Tile Title="Online help" Margin="3" Background="Gray" Command="{Binding OnlineHelpCommand}">
+                <icons:PackIconModern HorizontalAlignment="Center" Margin="0,-20,0,0" Width="40" Height="40" Kind="BookPerspectiveHelp"/>
+            </mah:Tile>
+            <mah:Tile Title="*.addin Generator" Background="BurlyWood" Foreground="Black" Command="{Binding AddinGeneratorCommand}">
+                <icons:PackIconModern Kind="Add" Margin="0,-30,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="40"/>
+            </mah:Tile>
+            <mah:Tile Title="Attach to process" Foreground="Black" Background="Beige" Command="{Binding AttachToRevitCommand}">
+                <Image Margin="0,-30,0,0" Source="pack://application:,,,/DuRevitTools;component/resources/revit.png" Width="40" Height="40"></Image>
+            </mah:Tile>
+        </WrapPanel>
+        <Grid DockPanel.Dock="Bottom" Margin="3">
+            <Expander Header="Links">
+                <StackPanel>
+                    <Label>
+                        <Hyperlink NavigateUri="https://github.com/weianweigan/DuRevitTools" Click="Hyperlink_Click">DuRevitTools</Hyperlink>
+                    </Label>
+                    <Label>
+                        <Hyperlink  NavigateUri="https://github.com/jeremytammik/RevitLookup" Click="Hyperlink_Click">RevitLookup</Hyperlink>
+                    </Label>
+                    <Label>
+                        <Hyperlink NavigateUri="https://github.com/jeremytammik/VisualStudioRevitAddinWizard" Click="Hyperlink_Click">VisualStudioRevitAddinWizard By jeremytammik</Hyperlink>
+                    </Label>
+                    <Label>
+                        <Hyperlink NavigateUri="https://github.com/Andrey-Bushman/Revit2017AddInTemplateSet" Click="Hyperlink_Click">Revit2017AddInTemplateSet By Andrey-Bushman</Hyperlink>
+                    </Label>
+                </StackPanel>
+            </Expander>
         </Grid>
     </DockPanel>
 

@@ -27,7 +27,7 @@ namespace DuRevitTools
         /// <summary>
         /// VS Package that provides this command, not null.
         /// </summary>
-        private readonly AsyncPackage package;
+        private readonly DuRevitToolsPackage package;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RevitToolsCommand"/> class.
@@ -35,7 +35,7 @@ namespace DuRevitTools
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
         /// <param name="commandService">Command service to add command to, not null.</param>
-        private RevitToolsCommand(AsyncPackage package, OleMenuCommandService commandService)
+        private RevitToolsCommand(DuRevitToolsPackage package, OleMenuCommandService commandService)
         {
             this.package = package ?? throw new ArgumentNullException(nameof(package));
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
@@ -69,7 +69,7 @@ namespace DuRevitTools
         /// Initializes the singleton instance of the command.
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
-        public static async Task InitializeAsync(AsyncPackage package)
+        public static async Task InitializeAsync(DuRevitToolsPackage package)
         {
             // Switch to the main thread - the call to AddCommand in RevitToolsCommand's constructor requires
             // the UI thread.

@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
 
 namespace DuRevitTools
@@ -37,6 +38,12 @@ namespace DuRevitTools
         /// </summary>
         public const string PackageGuidString = "e57b192c-0214-4de9-966d-743de7d9d085";
 
+        #region Properties
+
+        public static IVsDebugger VsDebugger { get; private set; }
+
+        #endregion
+
         #region Package Members
 
         /// <summary>
@@ -49,13 +56,16 @@ namespace DuRevitTools
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-
             // When initialized asynchronously, the current thread may be a background thread at this point.
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+
+            VsDebugger = await this.GetServiceAsync(typeof(IVsDebugger)) as IVsDebugger;
+
             await RevitToolsCommand.InitializeAsync(this);
         }
 
+        ///<summary>求解程序集，解决有些wpf程序集加载问题</summary>
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
             var assemblyPath = string.Empty;
