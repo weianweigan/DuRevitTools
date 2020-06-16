@@ -12,7 +12,7 @@
 * [Release 1.0](https://github.com/weianweigan/DuRevitTools/releases)
 
 <div align="center">
-    <img src="resources\Extension.png" width="500"/>
+    <img src="resources\Extension.png" width="600"/>
 </div>
 
 ## Usage
@@ -20,13 +20,13 @@
 ### Project Templates
 
 <div align="center">
-    <img src="resources\projects.png" width="500">
+    <img src="resources\projects.png" width="600">
 </div>
 
 ### Item Templates
 
 <div align="center">
-    <img src="resources\items.png" width="500">
+    <img src="resources\items.png" width="600">
 </div>
 
 ### Revit Tools in Visual Studio 2019
@@ -35,6 +35,6 @@
 * Visit Web Help;
 
 <div align="center">
-    <img src="resources\toolwindow.png" width="400">
-    <img src="resources\tools.png" width="230">
+    <img src="resources\toolwindow.png" width="420">
+    <img src="resources\tools.png" width="240">
 </div>
