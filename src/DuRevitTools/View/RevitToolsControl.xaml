@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="DuRevitTools.RevitToolsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vsshell="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.15.0"
+             Background="{DynamicResource {x:Static vsshell:VsBrushes.WindowKey}}"
+             Foreground="{DynamicResource {x:Static vsshell:VsBrushes.WindowTextKey}}"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="300"
+             Name="MyToolWindow">
+    <UserControl.Resources>
+        <Style TargetType="mah:Tile">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="120"/>
+        </Style>
+    </UserControl.Resources>
+    <DockPanel>
+           <WrapPanel DockPanel.Dock="Top" Margin="3">
+            <mah:Tile Title="AddinPath" Margin="3" Background="Teal" Command="{Binding AddinPathCommand}">
+            <StackPanel Width="100">
+                <icons:PackIconModern HorizontalAlignment="Center" Width="40" Height="40" Kind="Folder"/>
+                <ComboBox ItemsSource="{Binding RevitVersions}" SelectedItem="{Binding SelectVersion}"></ComboBox>
+            </StackPanel>
+        </mah:Tile>
+        <mah:Tile Title="Online help" Margin="3" Background="Gray" Command="{Binding OnlineHelpCommand}">
+            <icons:PackIconModern HorizontalAlignment="Center" Width="40" Height="40" Kind="BookPerspectiveHelp"/>
+        </mah:Tile>
+            <mah:Tile Title="*.addin Generator" Background="BurlyWood" Foreground="Black" Command="{Binding AddinGenerator}">
+                <icons:PackIconModern Kind="Add" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="40"/>
+            </mah:Tile>
+    </WrapPanel>
+        <Grid DockPanel.Dock="Bottom">
+            <StackPanel>
+                <Label>
+                    <Hyperlink NavigateUri="https://github.com/weianweigan/DuRevitTools" Click="Hyperlink_Click">DuRevitTools</Hyperlink>
+                </Label>
+                <Label>
+                    <Hyperlink  NavigateUri="https://github.com/jeremytammik/RevitLookup" Click="Hyperlink_Click">RevitLookup</Hyperlink>
+                </Label>
+                <Label>
+                    <Hyperlink NavigateUri="https://github.com/jeremytammik/VisualStudioRevitAddinWizard" Click="Hyperlink_Click">VisualStudioRevitAddinWizard By jeremytammik</Hyperlink>
+                </Label>
+                <Label>
+                    <Hyperlink NavigateUri="https://github.com/Andrey-Bushman/Revit2017AddInTemplateSet" Click="Hyperlink_Click">Revit2017AddInTemplateSet By Andrey-Bushman</Hyperlink>
+                </Label>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+
+</UserControl>

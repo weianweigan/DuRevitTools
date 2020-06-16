@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuRevitTools", "DuRevitTools\DuRevitTools.csproj", "{DB5CD60F-3BDB-41B8-BBB6-5B07A29B303C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuRevitToolsTests", "DuRevitToolsTests\DuRevitToolsTests.csproj", "{B4EA498E-D926-43CB-8218-9F51C20BD896}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{ACFBA0CC-3E11-4598-BC18-FE54D94D9CBE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB5CD60F-3BDB-41B8-BBB6-5B07A29B303C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB5CD60F-3BDB-41B8-BBB6-5B07A29B303C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB5CD60F-3BDB-41B8-BBB6-5B07A29B303C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB5CD60F-3BDB-41B8-BBB6-5B07A29B303C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4EA498E-D926-43CB-8218-9F51C20BD896}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4EA498E-D926-43CB-8218-9F51C20BD896}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4EA498E-D926-43CB-8218-9F51C20BD896}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4EA498E-D926-43CB-8218-9F51C20BD896}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B4EA498E-D926-43CB-8218-9F51C20BD896} = {ACFBA0CC-3E11-4598-BC18-FE54D94D9CBE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {11036484-6CB7-4E00-897E-E5EF0CB42E67}
+	EndGlobalSection
+EndGlobal
