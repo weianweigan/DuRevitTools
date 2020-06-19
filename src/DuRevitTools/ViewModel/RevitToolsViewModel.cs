@@ -68,25 +68,53 @@ namespace DuRevitTools
             try
             {
                 Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
-                var revitPtr = GetRevitProcessPtr();
+                
+                //Check runing state
+                var revitPtr = GetRevitProcessPtr(out var process);
                 if (revitPtr == null)
                 {
-                    MessageBox.Show("Revit.exe Not Found In Process");
+                    MessageBox.Show("Revit.exe Not Found In Processes");
+                    return;
                 }
-                DuRevitToolsPackage.VsDebugger?.LaunchDebugTargets(1, revitPtr.Value);
+
+                var dbg = DuRevitTools.DuRevitToolsPackage.Debugger;
+
+                if (dbg == null)
+                {
+                    return;
+                }
+
+                EnvDTE80.Transport trans = null;
+
+                //使用默认的连接类型
+                foreach (EnvDTE80.Transport transItem in dbg.Transports)
+                {
+                    if (trans == null)
+                    {
+                        trans = transItem;
+                    }
+                    if (transItem.Name == "defualt" || transItem.Name == "默认值")
+                    {
+                        trans = transItem;
+                        break;
+                    }
+                }
+
+                if (trans == null)
+                {
+                    MessageBox.Show("Transfort Not Found");
+                }
+
+                //使用本机进程
+                var proc2 = dbg.GetProcesses(trans,Environment.MachineName).Item("Revit.exe") as EnvDTE80.Process2;
+
+                //附加到进程
+                proc2?.Attach();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show($"Attach to Revit process failed:{ex.Message}");
             }
-        }
-
-        //获取revit进程
-        public IntPtr? GetRevitProcessPtr()
-        {
-            Process[] processes = Process.GetProcesses();
-
-            return processes.Where(p => p.ProcessName == "Revit").FirstOrDefault()?.Handle;
         }
 
         //生成器
@@ -112,7 +140,27 @@ namespace DuRevitTools
             return versions;
         }
 
-        //查看路径
+        //打开文件夹
+        private void OpenFolder(string path)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", path);
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        ///<summary>获取revit进程</summary><param name="process">进程对象</param>
+        public IntPtr? GetRevitProcessPtr(out Process process)
+        {
+            Process[] processes = Process.GetProcesses();
+
+            process = processes?.Where(p => p.ProcessName == "Revit").FirstOrDefault();
+
+            return process?.Handle;
+        }
+
+        ///<summary>查看路径</summary>
         public void AddinPathClick()
         {
             if (string.IsNullOrEmpty(SelectVersion))
@@ -124,13 +172,7 @@ namespace DuRevitTools
             OpenFolder(path);
         }
 
-        //打开文件夹
-        private void OpenFolder(string path)
-        {
-            System.Diagnostics.Process.Start("explorer.exe", path);
-        }
-        
-        //启动某个路径
+        ///<summary>启动某个路径</summary>
         public void StartUrl(string path)
         {
             System.Diagnostics.Process.Start(path);

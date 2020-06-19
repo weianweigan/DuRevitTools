@@ -35,7 +35,7 @@ namespace DuRevitTools.Tests
         {
             RevitToolsViewModel vm = new RevitToolsViewModel();
 
-            var ptr = vm.GetRevitProcessPtr();
+            var ptr = vm.GetRevitProcessPtr(out _);
 
             Assert.NotNull(ptr);
         }

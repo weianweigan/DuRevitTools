@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
+using EnvDTE;
+using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
@@ -31,7 +32,7 @@ namespace DuRevitTools
     [Guid(DuRevitToolsPackage.PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideToolWindow(typeof(RevitTools))]
-    public sealed class DuRevitToolsPackage : AsyncPackage
+    public sealed class DuRevitToolsPackage : AsyncPackage,IServiceProvider
     {
         /// <summary>
         /// DuRevitToolsPackage GUID string.
@@ -40,7 +41,11 @@ namespace DuRevitTools
 
         #region Properties
 
-        public static IVsDebugger VsDebugger { get; private set; }
+        public static Debugger2 Debugger { get; private set; }
+
+        public static EnvDTE80.DTE2 VsDTE { get; private set; }
+
+        public static IVsSolution VsSolution { get; private set; }
 
         #endregion
 
@@ -55,13 +60,21 @@ namespace DuRevitTools
         /// <returns>A task representing the async work of package initialization, or an already completed task if there is none. Do not return null from this method.</returns>
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
+            //求解程序集
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+
             // When initialized asynchronously, the current thread may be a background thread at this point.
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
-            VsDebugger = await this.GetServiceAsync(typeof(IVsDebugger)) as IVsDebugger;
+            //DTE和Debug服务
+            VsDTE = await this.GetServiceAsync(typeof(Microsoft.VisualStudio.Shell.Interop.SDTE)) as EnvDTE80.DTE2;
+            Debugger = VsDTE?.Debugger as EnvDTE80.Debugger2;
+            
+            //解决方案服务
+            VsSolution = await this.GetServiceAsync(typeof(SVsSolution)) as IVsSolution;
 
+            //初始化命令
             await RevitToolsCommand.InitializeAsync(this);
         }
 
@@ -80,7 +93,7 @@ namespace DuRevitTools
                 }
                 else
                 {
-                    Debug.Print($"Assembly Load Error{assemblyPath}");
+                    System.Diagnostics.Debug.Print($"Assembly Load Error{assemblyPath}");
                 }
 
                 var assemblyLocation = Assembly.GetExecutingAssembly().Location;
