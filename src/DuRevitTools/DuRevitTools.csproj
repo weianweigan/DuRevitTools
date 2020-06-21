@@ -166,6 +166,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DuRevitTools.APIAnalyzer\DuRevitTools.APIAnalyzer\DuRevitTools.APIAnalyzer.csproj">
+      <Project>{A92DFA0F-DD54-4FFA-9F56-B832882EAAC1}</Project>
+      <Name>DuRevitTools.APIAnalyzer</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
+    <ProjectReference Include="..\DuRevitTools.Model\DuRevitTools.Model.csproj">
+      <Project>{1a2ee6a8-b36c-485b-8adc-c5dfa50d9cb5}</Project>
+      <Name>DuRevitTools.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

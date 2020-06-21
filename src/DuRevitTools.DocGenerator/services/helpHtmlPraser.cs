@@ -7,8 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 using System.Threading.Tasks;
+using DuRevitTools.Model;
 
-namespace GStarGenerator
+namespace DuRevitTools.DocGenerator
 {
     public class helpHtmlPraser
     {
@@ -100,6 +101,11 @@ namespace GStarGenerator
         {
             var docparams = doc.Body.GetElementsByTagName("div").Where(p => p.Id == "parameters").FirstOrDefault()?.GetElementsByTagName("dl");
 
+            if (docparams == null)
+            {
+                yield break;
+            }
+
             foreach (var d1Node in docparams)
             {
                 param par = new param();
@@ -107,7 +113,7 @@ namespace GStarGenerator
 
                 var ddele = d1Node.GetElementsByTagName("dd").FirstOrDefault();
 
-                par.value = ParseParamValue(ddele.TextContent);
+                par.value = ParseParamValue(ddele.TextContent);//.Replace("&lt;", "<").Replace("/&gt;", "/>");
 
                 yield return par;
             }
@@ -161,7 +167,8 @@ namespace GStarGenerator
 
         public string InsertSeeAlso(memberType memberType,string path)
         {
-            return $"<see cref = \"{memberType.ToString()}:{path}\" />";
+            return path;
+            //return $"<see cref = \"{memberType.ToString()}:{path}\" />";
         }
 
         ///<summary>后去<see cref="member"/></summary>

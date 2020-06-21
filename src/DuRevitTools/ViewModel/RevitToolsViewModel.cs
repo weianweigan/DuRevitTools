@@ -20,6 +20,7 @@ namespace DuRevitTools
         private string[] _revitVersions;
         private string _selectVersion;
         private const string AddinsPath = @"C:\ProgramData\Autodesk\Revit\Addins";
+        private RelayCommand _documentCommand;
         private RelayCommand _attachToRevitCommand;
         private RelayCommand _addinGenerator;
         private RelayCommand _onlineHelpCommand;
@@ -56,11 +57,46 @@ namespace DuRevitTools
         public RelayCommand AddinGeneratorCommand => _addinGenerator ?? (_addinGenerator = new RelayCommand(AddinGeneratorClick));
 
         //附加到revit进程
-        public RelayCommand AttachToRevitCommand => _attachToRevitCommand ?? (_attachToRevitCommand = new RelayCommand(AttachToRevitClick,true));
+        public RelayCommand AttachToRevitCommand => _attachToRevitCommand ?? (_attachToRevitCommand = new RelayCommand(AttachToRevitClick, true));
+
+        public RelayCommand DocumentCommand => _documentCommand ?? (_documentCommand = new RelayCommand(DocuemntClick,true));
 
         #endregion
 
         #region Private Methods
+
+        private void DocuemntClick()
+        {
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+
+            var sln = DuRevitToolsPackage.VsDTE.Solution;
+
+            foreach (Project project in sln.Projects)
+            {
+                foreach (ProjectItem item in project.ProjectItems)
+                {
+                    Debug.Print(item.Name);
+                }
+            }
+
+            
+            //if (DuRevitToolsPackage.VSWorkspace == null)
+            //{
+            //    return;
+            //}
+            //var sln = DuRevitToolsPackage.VSWorkspace.CurrentSolution;
+            //if (sln == null)
+            //{
+            //    MessageBox.Show("Solution Not Found");
+            //}
+            //foreach (var project in sln.Projects)
+            //{
+            //    foreach (var reference in project.MetadataReferences)
+            //    {
+
+            //    }
+            //}
+        }
 
         //附加进程
         private void AttachToRevitClick()
@@ -68,7 +104,7 @@ namespace DuRevitTools
             try
             {
                 Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
-                
+
                 //Check runing state
                 var revitPtr = GetRevitProcessPtr(out var process);
                 if (revitPtr == null)
@@ -106,7 +142,7 @@ namespace DuRevitTools
                 }
 
                 //使用本机进程
-                var proc2 = dbg.GetProcesses(trans,Environment.MachineName).Item("Revit.exe") as EnvDTE80.Process2;
+                var proc2 = dbg.GetProcesses(trans, Environment.MachineName).Item("Revit.exe") as EnvDTE80.Process2;
 
                 //附加到进程
                 proc2?.Attach();

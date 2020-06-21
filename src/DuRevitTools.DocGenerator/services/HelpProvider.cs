@@ -5,12 +5,13 @@ using System;
 using System.Xml;
 using System.IO;
 using System.Xml.Serialization;
+using DuRevitTools.Model;
 
-namespace GStarGenerator
+namespace DuRevitTools.DocGenerator
 {
     public class HelpProvider
     {
-        private const string dllName = "RevitApi";
+        private const string dllName = "RevitAPI";
 
         public static doc GetRevitApiDoc(string folder)
         {
@@ -85,7 +86,7 @@ namespace GStarGenerator
         internal static string GetXml(doc doc)
         {
             //&lt; see cref = "T:Autodesk.Revit.DB.XYZ" / &gt;
-            return Serializer(typeof(doc), doc).Replace("&lt;","<").Replace("/&gt;","/>");       
+            return Serializer(typeof(doc), doc);//.Replace("&lt;","<").Replace("/&gt;","/>");       
         }
 
         public static string Serializer(Type type, object obj)

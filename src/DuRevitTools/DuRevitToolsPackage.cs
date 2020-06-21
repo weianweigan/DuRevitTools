@@ -1,10 +1,13 @@
 ﻿using System;
+using System.ComponentModel.Design;
+using System.Composition;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
-using EnvDTE;
 using EnvDTE80;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
@@ -32,7 +35,10 @@ namespace DuRevitTools
     [Guid(DuRevitToolsPackage.PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideToolWindow(typeof(RevitTools))]
-    public sealed class DuRevitToolsPackage : AsyncPackage,IServiceProvider
+    [ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string, PackageAutoLoadFlags.BackgroundLoad)]
+    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string, PackageAutoLoadFlags.BackgroundLoad)]
+    public sealed class DuRevitToolsPackage : AsyncPackage, Microsoft.VisualStudio.OLE.Interop.IServiceProvider,
+        IOleCommandTarget, IVsPersistSolutionOpts, IServiceContainer, System.IServiceProvider, IVsUserSettings, IVsUserSettingsMigration, IVsUserSettingsQuery, IVsToolWindowFactory, IVsToolboxItemProvider, IVsToolboxItemProvider2
     {
         /// <summary>
         /// DuRevitToolsPackage GUID string.
@@ -45,7 +51,8 @@ namespace DuRevitTools
 
         public static EnvDTE80.DTE2 VsDTE { get; private set; }
 
-        public static IVsSolution VsSolution { get; private set; }
+        //[Import]
+        //public static VisualStudioWorkspace VSWorkspace { get; set; }
 
         #endregion
 
@@ -67,15 +74,16 @@ namespace DuRevitTools
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
+            //初始化命令
+            await RevitToolsCommand.InitializeAsync(this);
+
             //DTE和Debug服务
             VsDTE = await this.GetServiceAsync(typeof(Microsoft.VisualStudio.Shell.Interop.SDTE)) as EnvDTE80.DTE2;
             Debugger = VsDTE?.Debugger as EnvDTE80.Debugger2;
-            
-            //解决方案服务
-            VsSolution = await this.GetServiceAsync(typeof(SVsSolution)) as IVsSolution;
 
-            //初始化命令
-            await RevitToolsCommand.InitializeAsync(this);
+            //Roslyn Service
+            //VSWorkspace = await GetServiceAsync(typeof(VisualStudioWorkspace)) as VisualStudioWorkspace;
+
         }
 
         ///<summary>求解程序集，解决有些wpf程序集加载问题</summary>

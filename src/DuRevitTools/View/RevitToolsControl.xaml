@@ -27,24 +27,29 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel>
-        <WrapPanel DockPanel.Dock="Top" Margin="3">
-            <mah:Tile Title="AddinPath" Margin="3" Background="Teal" Command="{Binding AddinPathCommand}">
-                <StackPanel Width="100">
-                    <icons:PackIconModern HorizontalAlignment="Center" Margin="0,-30,0,0" Width="40" Height="40" Kind="Folder"/>
-                    <ComboBox ItemsSource="{Binding RevitVersions}" SelectedItem="{Binding SelectVersion}"></ComboBox>
-                </StackPanel>
-            </mah:Tile>
-            <mah:Tile Title="Online help" Margin="3" Background="Gray" Command="{Binding OnlineHelpCommand}">
-                <icons:PackIconModern HorizontalAlignment="Center" Margin="0,-20,0,0" Width="40" Height="40" Kind="BookPerspectiveHelp"/>
-            </mah:Tile>
-            <mah:Tile Title="*.addin Generator" Background="BurlyWood" Foreground="Black" Command="{Binding AddinGeneratorCommand}">
-                <icons:PackIconModern Kind="Add" Margin="0,-30,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="40"/>
-            </mah:Tile>
-            <mah:Tile Title="Attach to process" Foreground="Black" Background="Beige" Command="{Binding AttachToRevitCommand}">
-                <Image Margin="0,-30,0,0" Source="pack://application:,,,/DuRevitTools;component/resources/revit.png" Width="40" Height="40"></Image>
-            </mah:Tile>
-        </WrapPanel>
-        <Grid DockPanel.Dock="Bottom" Margin="3">
+        <Expander Header="Tiles for Revit" IsExpanded="True" DockPanel.Dock="Top">
+            <WrapPanel Margin="3">
+                <mah:Tile Title="AddinPath" Margin="3" Background="Teal" Command="{Binding AddinPathCommand}">
+                    <StackPanel Width="100">
+                        <icons:PackIconModern HorizontalAlignment="Center" Margin="0,-30,0,0" Width="40" Height="40" Kind="Folder"/>
+                        <ComboBox ItemsSource="{Binding RevitVersions}" SelectedItem="{Binding SelectVersion}"></ComboBox>
+                    </StackPanel>
+                </mah:Tile>
+                <mah:Tile Title="Online help" Margin="3" Background="Gray" Command="{Binding OnlineHelpCommand}">
+                    <icons:PackIconModern HorizontalAlignment="Center" Margin="0,-20,0,0" Width="40" Height="40" Kind="BookPerspectiveHelp"/>
+                </mah:Tile>
+                <mah:Tile Title="Attach to process" Foreground="Black" Background="Beige" Command="{Binding AttachToRevitCommand}">
+                    <Image Margin="0,-30,0,0" Source="pack://application:,,,/DuRevitTools;component/resources/revit.png" Width="40" Height="40"></Image>
+                </mah:Tile>
+                <mah:Tile Title="Enable Doc" ToolTip="Install xml documention to RevitApi.dll" Foreground="Black" Background="BurlyWood" Command="{Binding DocumentCommand}">
+                    <icons:PackIconModern Kind="Acorn" Margin="0,-30,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="40"/>
+                </mah:Tile>
+            </WrapPanel>
+        </Expander>
+        <Expander Header="Documention" IsExpanded="True" DockPanel.Dock="Top">
+            
+        </Expander>
+        <Grid DockPanel.Dock="Bottom">
             <Expander Header="Links">
                 <StackPanel>
                     <Label>
