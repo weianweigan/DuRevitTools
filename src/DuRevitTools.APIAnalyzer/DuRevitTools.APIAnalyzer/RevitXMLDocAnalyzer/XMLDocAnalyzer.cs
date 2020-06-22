@@ -41,7 +41,7 @@ namespace DuRevitTools.APIAnalyzer
             // See https://github.com/dotnet/roslyn/blob/master/docs/analyzers/Analyzer%20Actions%20Semantics.md for more information
             //context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.NamedType);
 
-            context.RegisterSyntaxNodeAction(AnalyzerSyntaxNode, SyntaxKind.PropertyDeclaration, SyntaxKind.FieldDeclaration, SyntaxKind.PropertyKeyword, SyntaxKind.FieldKeyword);
+            context.RegisterSyntaxNodeAction(AnalyzerSyntaxNode, SyntaxKind.PropertyDeclaration, SyntaxKind.FieldDeclaration, SyntaxKind.IdentifierName);
         }
 
         #region Methods
@@ -59,6 +59,9 @@ namespace DuRevitTools.APIAnalyzer
                     break;
                 case SyntaxKind.FieldDeclaration:
                     type = ((FieldDeclarationSyntax)node).Declaration.Type;
+                    break;
+                case SyntaxKind.IdentifierName:
+                    type = ((IdentifierNameSyntax)node);
                     break;
                 default:
                     return;
@@ -83,7 +86,13 @@ namespace DuRevitTools.APIAnalyzer
                 // Find Meta Data(RevitAPI.dll),judge whether it has a xml doc file;
                 var revitApiRef = context.Compilation.References.Where(p => Path.GetFileNameWithoutExtension(p.Display) == "RevitAPI").FirstOrDefault();
 
-                if (revitApiRef == null || XMLDocCodeFixProvider.IsXmlDocExist(revitApiRef.Display))
+                //Judge whether RevitAPI.dll exist;
+                if (!File.Exists(revitApiRef.Display))
+                {
+                    return;
+                }
+
+                if (revitApiRef == null || XmlDocHelper.IsXmlDocExist(revitApiRef.Display))
                 {
                     return;
                 }

@@ -8,6 +8,7 @@ using DuRevitTools.APIAnalyzer;
 
 namespace DuRevitTools.APIAnalyzer.Test
 {
+
     [TestClass]
     public class UnitTest : CodeFixVerifier
     {
@@ -71,12 +72,14 @@ namespace DuRevitTools.APIAnalyzer.Test
 
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {
-            return new DuRevitToolsAPIAnalyzerCodeFixProvider();
+            //return new DuRevitToolsAPIAnalyzerCodeFixProvider();
+            return null;
         }
 
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
         {
-            return new DuRevitToolsAPIAnalyzerAnalyzer();
+            //return new DuRevitToolsAPIAnalyzerAnalyzer();
+            return null;
         }
     }
 }
