@@ -41,10 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RevitPathProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RevitRefExtension.cs" />
-    <Compile Include="RevitVersion.cs" />
+    <Compile Include="RevitPathProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DuRevitTools.IService\DuRevitTools.IService.csproj">
+      <Project>{043dff1c-9fc4-48d0-9aa3-d968166fe1f0}</Project>
+      <Name>DuRevitTools.IService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DuRevitTools.Model\DuRevitTools.Model.csproj">
+      <Project>{1A2EE6A8-B36C-485B-8ADC-C5DFA50D9CB5}</Project>
+      <Name>DuRevitTools.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

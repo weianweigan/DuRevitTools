@@ -6,7 +6,9 @@ namespace DuRevitTools.APIAnalyzer
 {
     public static class DiagnosticIDs
     {
-        public const string XMLDocAnalyzer = "RevitAPI001";
+        public const string XMLDocAnalyzer = "RevitAPI0010";
+
+        public const string RevitRefAnalyzer = "RevitAPI0020";
 
     }
 }

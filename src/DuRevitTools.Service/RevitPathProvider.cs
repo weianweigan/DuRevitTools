@@ -1,14 +1,20 @@
-﻿using Microsoft.Win32;
+﻿using DuRevitTools.IService;
+using DuRevitTools.Model;
+using Microsoft.Win32;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
 
 namespace DuRevitTools.Service
 {
     ///<summary>Get Path Message of Revit in Regedit</summary>
-    public class RevitPathProvider
+    public class RevitPathProvider: IRevitPathProvider
     {
-        ///<summary>Get Version Data from Regedit</summary>
-        public static IEnumerable<RevitVersion> GetInstallVersion()
+        ///<inheritdoc/>
+        public static IRevitPathProvider Default => new RevitPathProvider();
+
+        ///<inheritdoc/>
+        public IEnumerable<RevitVersion> GetInstallVersion()
         {
 
             Microsoft.Win32.RegistryKey localMachine64 = Microsoft.Win32.RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine, Microsoft.Win32.RegistryView.Registry64);
@@ -39,7 +45,7 @@ namespace DuRevitTools.Service
         }
 
         ///<summary>Get Data from key</summary>
-        private static bool TryGetVersionData(RegistryKey key,out RevitVersion data)
+        private bool TryGetVersionData(RegistryKey key,out RevitVersion data)
         {
             data = new RevitVersion();
 
@@ -58,6 +64,5 @@ namespace DuRevitTools.Service
 
             return true;
         }
-
     }
 }

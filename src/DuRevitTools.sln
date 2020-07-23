@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuRevitTools.Service", "DuR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuRevitTools.ServiceTests", "DuRevitTools.ServiceTests\DuRevitTools.ServiceTests.csproj", "{F527A9C5-A2C9-4A17-9397-9FFB5E621666}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuRevitTools.IService", "DuRevitTools.IService\DuRevitTools.IService.csproj", "{043DFF1C-9FC4-48D0-9AA3-D968166FE1F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,10 @@ Global
 		{F527A9C5-A2C9-4A17-9397-9FFB5E621666}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F527A9C5-A2C9-4A17-9397-9FFB5E621666}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F527A9C5-A2C9-4A17-9397-9FFB5E621666}.Release|Any CPU.Build.0 = Release|Any CPU
+		{043DFF1C-9FC4-48D0-9AA3-D968166FE1F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{043DFF1C-9FC4-48D0-9AA3-D968166FE1F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{043DFF1C-9FC4-48D0-9AA3-D968166FE1F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{043DFF1C-9FC4-48D0-9AA3-D968166FE1F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,6 +97,7 @@ Global
 		{9848D2B5-94ED-4427-81A9-B2BD57ADDB7B} = {4AE86696-D0E6-493F-AFC2-0347C2FD4158}
 		{C0530E17-0B93-457C-9094-628129196FE8} = {059E1FE3-2C5B-4554-B6C8-9BA4567188B7}
 		{F527A9C5-A2C9-4A17-9397-9FFB5E621666} = {ACFBA0CC-3E11-4598-BC18-FE54D94D9CBE}
+		{043DFF1C-9FC4-48D0-9AA3-D968166FE1F0} = {059E1FE3-2C5B-4554-B6C8-9BA4567188B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {11036484-6CB7-4E00-897E-E5EF0CB42E67}

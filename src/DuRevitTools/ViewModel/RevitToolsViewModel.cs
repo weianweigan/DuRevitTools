@@ -1,4 +1,5 @@
-﻿using EnvDTE;
+﻿using DuRevitTools.Service;
+using EnvDTE;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -20,6 +21,7 @@ namespace DuRevitTools
         private string[] _revitVersions;
         private string _selectVersion;
         private const string AddinsPath = @"C:\ProgramData\Autodesk\Revit\Addins";
+        private RelayCommand _openRevitPath;
         private RelayCommand _documentCommand;
         private RelayCommand _attachToRevitCommand;
         private RelayCommand _addinGenerator;
@@ -53,18 +55,32 @@ namespace DuRevitTools
         //在线帮助
         public RelayCommand OnlineHelpCommand => _onlineHelpCommand ?? (_onlineHelpCommand = new RelayCommand(OnlineHelpClick));
 
-        //*.addin 文件生成器
+        ///<summary>*.addin 文件生成器</summary>
         public RelayCommand AddinGeneratorCommand => _addinGenerator ?? (_addinGenerator = new RelayCommand(AddinGeneratorClick));
 
-        //附加到revit进程
+        ///<summary>附加到revit进程</summary>
         public RelayCommand AttachToRevitCommand => _attachToRevitCommand ?? (_attachToRevitCommand = new RelayCommand(AttachToRevitClick, true));
 
-        public RelayCommand DocumentCommand => _documentCommand ?? (_documentCommand = new RelayCommand(DocuemntClick,true));
+        public RelayCommand DocumentCommand => _documentCommand ?? (_documentCommand = new RelayCommand(DocuemntClick, true));
+
+        public RelayCommand OpenRevitPath => _openRevitPath ?? (_openRevitPath = new RelayCommand(OpenRevitPathClick,true));
 
         #endregion
 
         #region Private Methods
 
+        ///<summary>Open revit location path</summary>
+        private void OpenRevitPathClick()
+        {
+            var revitVersions = RevitPathProvider.Default.GetInstallVersion();
+            foreach (var ver in revitVersions)
+            {
+                OpenFolder(ver.InstallLocation);
+            }
+        }
+
+        [Obsolete]
+        ///<summary>Open docuemt</summary>
         private void DocuemntClick()
         {
             Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
@@ -78,27 +94,9 @@ namespace DuRevitTools
                     Debug.Print(item.Name);
                 }
             }
-
-            
-            //if (DuRevitToolsPackage.VSWorkspace == null)
-            //{
-            //    return;
-            //}
-            //var sln = DuRevitToolsPackage.VSWorkspace.CurrentSolution;
-            //if (sln == null)
-            //{
-            //    MessageBox.Show("Solution Not Found");
-            //}
-            //foreach (var project in sln.Projects)
-            //{
-            //    foreach (var reference in project.MetadataReferences)
-            //    {
-
-            //    }
-            //}
         }
 
-        //附加进程
+        ///<summary>附加进程</summary>
         private void AttachToRevitClick()
         {
             try
@@ -153,19 +151,19 @@ namespace DuRevitTools
             }
         }
 
-        //生成器
+        ///<summary>生成器</summary>
         private void AddinGeneratorClick()
         {
             MessageBox.Show("Developing,Visit https://github.com/weianweigan/DuRevitTools for more");
         }
 
-        //在线帮助
+        ///<summary>在线帮助</summary>
         private void OnlineHelpClick()
         {
             StartUrl("https://www.autodesk.com/developer-network/platform-technologies/revit");
         }
 
-        //获取版本
+        ///<summary>获取版本</summary>
         private string[] GetVersions()
         {
             var versions = Directory.GetDirectories(AddinsPath).Select(p => p.Split('\\').LastOrDefault()).ToArray();
@@ -176,7 +174,7 @@ namespace DuRevitTools
             return versions;
         }
 
-        //打开文件夹
+        ///<summary>打开文件夹</summary>
         private void OpenFolder(string path)
         {
             System.Diagnostics.Process.Start("explorer.exe", path);

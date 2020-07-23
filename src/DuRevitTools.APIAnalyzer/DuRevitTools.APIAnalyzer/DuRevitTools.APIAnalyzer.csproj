@@ -44,11 +44,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\DuRevitTools.IService\DuRevitTools.IService.csproj" />
     <ProjectReference Include="..\..\DuRevitTools.Model\DuRevitTools.Model.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="RevitRefAnalyzer\" />
+    <ProjectReference Include="..\..\DuRevitTools.Service\DuRevitTools.Service.csproj" />
   </ItemGroup>
 
 </Project>

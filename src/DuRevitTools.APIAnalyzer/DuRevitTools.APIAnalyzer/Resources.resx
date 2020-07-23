@@ -129,11 +129,20 @@
     <value>Type name contains lowercase letters</value>
     <comment>The title of the diagnostic.</comment>
   </data>
+  <data name="RevitRefDescription" xml:space="preserve">
+    <value>Add Revit reference to current project from local revit</value>
+  </data>
+  <data name="RevitRefMessageFormat" xml:space="preserve">
+    <value>Add Revit reference for namespace{0}</value>
+  </data>
+  <data name="RevitRefTitle" xml:space="preserve">
+    <value>Add Revit reference to current project</value>
+  </data>
   <data name="XMLDocDescription" xml:space="preserve">
     <value>Enable XML document for RevitAPI.dll</value>
   </data>
   <data name="XMLDocMessageFormat" xml:space="preserve">
-    <value>You can get some help information for revitapi</value>
+    <value>You can get some help information for RevitAPI.dll</value>
   </data>
   <data name="XMLDocTitle" xml:space="preserve">
     <value>Enable XML document</value>

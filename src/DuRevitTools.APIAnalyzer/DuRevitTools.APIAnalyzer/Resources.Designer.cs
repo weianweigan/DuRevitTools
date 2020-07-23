@@ -88,6 +88,33 @@ namespace DuRevitTools.APIAnalyzer {
         }
         
         /// <summary>
+        ///   查找类似 Add Revit reference to current project from local revit 的本地化字符串。
+        /// </summary>
+        internal static string RevitRefDescription {
+            get {
+                return ResourceManager.GetString("RevitRefDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Add Revit reference for namespace{0} 的本地化字符串。
+        /// </summary>
+        internal static string RevitRefMessageFormat {
+            get {
+                return ResourceManager.GetString("RevitRefMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Add Revit reference to current project 的本地化字符串。
+        /// </summary>
+        internal static string RevitRefTitle {
+            get {
+                return ResourceManager.GetString("RevitRefTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Enable XML document for RevitAPI.dll 的本地化字符串。
         /// </summary>
         internal static string XMLDocDescription {
@@ -97,7 +124,7 @@ namespace DuRevitTools.APIAnalyzer {
         }
         
         /// <summary>
-        ///   查找类似 You can get some help information for revitapi 的本地化字符串。
+        ///   查找类似 You can get some help information for RevitAPI.dll 的本地化字符串。
         /// </summary>
         internal static string XMLDocMessageFormat {
             get {

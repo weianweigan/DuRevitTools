@@ -8,7 +8,6 @@ using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.IO;
-using System.Globalization;
 using System.Text;
 
 namespace DuRevitTools.APIAnalyzer
@@ -16,7 +15,7 @@ namespace DuRevitTools.APIAnalyzer
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(XMLDocCodeFixProvider)), Shared]
     public class XMLDocCodeFixProvider: CodeFixProvider
     {
-        private const string title = "Enable document for RevitAPI.dll";
+        private const string title = "Enable document for RevitAPI.dll (ReStart Visual Studio)";
 
         public sealed override ImmutableArray<string> FixableDiagnosticIds
         {
@@ -61,17 +60,15 @@ namespace DuRevitTools.APIAnalyzer
             }
 
             //生成XML文件
-            await XmlDocHelper.AddXMLFileToRefAsync(revitAPIRef.Display);
+            XmlDocHelper.AddXMLFileToRef(revitAPIRef.Display);
 
             var newproject = document.Project
                 .RemoveMetadataReference(revitAPIRef)
                 .AddMetadataReference(MetadataReference
                 .CreateFromFile(revitAPIRef.Display, default(MetadataReferenceProperties), 
-                XmlDocumentationProvider.CreateFromBytes(Encoding.ASCII.GetBytes(XMLDocAnalyzer.DocProvider.XMLDoc))));
+                XmlDocumentationProvider.CreateFromBytes(Encoding.ASCII.GetBytes(SymbolHelper.DocProvider.XMLDoc))));
 
             return newproject.Solution;
         }
-
-
     }
 }

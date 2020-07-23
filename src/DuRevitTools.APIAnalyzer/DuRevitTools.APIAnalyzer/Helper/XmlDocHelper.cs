@@ -23,7 +23,7 @@ namespace DuRevitTools.APIAnalyzer
             var filePath = Path.Combine(Path.GetDirectoryName(metaDataPath), RevitAPIXMLDoc);
             if (!File.Exists(filePath))
             {
-                File.WriteAllText(filePath, XMLDocAnalyzer.DocProvider.XMLDoc);
+                File.WriteAllText(filePath, SymbolHelper.DocProvider.XMLDoc);
             }
         }
 

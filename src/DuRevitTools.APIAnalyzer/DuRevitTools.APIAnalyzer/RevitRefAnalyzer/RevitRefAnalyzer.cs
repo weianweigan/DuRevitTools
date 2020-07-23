@@ -1,35 +1,37 @@
-﻿using System.Collections.Immutable;
+﻿using System;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using DuRevitTools.Model;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace DuRevitTools.APIAnalyzer
+namespace DuRevitTools.APIAnalyzer.RevitRefAnalyzer
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class XMLDocAnalyzer : DiagnosticAnalyzer
+    public class RevitRefAnalyzer: DiagnosticAnalyzer
     {
         #region Fields
 
-
         // You can change these strings in the Resources.resx file. If you do not want your analyzer to be localize-able, you can use regular strings for Title and MessageFormat.
         // See https://github.com/dotnet/roslyn/blob/master/docs/analyzers/Localizing%20Analyzers.md for more on localization
-        private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.XMLDocTitle), Resources.ResourceManager, typeof(Resources));
-        private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.XMLDocMessageFormat), Resources.ResourceManager, typeof(Resources));
-        private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.XMLDocDescription), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.RevitRefTitle), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.RevitRefMessageFormat), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.RevitRefDescription), Resources.ResourceManager, typeof(Resources));
         private const string Category = "Usage";
 
-        private static DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticIDs.XMLDocAnalyzer, Title, MessageFormat, Category, DiagnosticSeverity.Info, isEnabledByDefault: true, description: Description);
+        private static DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticIDs.RevitRefAnalyzer, Title, MessageFormat, Category, DiagnosticSeverity.Info, isEnabledByDefault: true, description: Description);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return ImmutableArray.Create(Rule); } }
 
         #endregion
 
         #region Property
+        public static DocProvider DocProvider => DocProvider.Provider;
 
         #endregion
 
@@ -39,7 +41,7 @@ namespace DuRevitTools.APIAnalyzer
             // See https://github.com/dotnet/roslyn/blob/master/docs/analyzers/Analyzer%20Actions%20Semantics.md for more information
             //context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.NamedType);
 
-            context.RegisterSyntaxNodeAction(AnalyzerSyntaxNode, SyntaxKind.PropertyDeclaration, SyntaxKind.FieldDeclaration, SyntaxKind.IdentifierName);
+            context.RegisterSyntaxNodeAction(AnalyzerSyntaxNode, SyntaxKind.PropertyDeclaration, SyntaxKind.FieldDeclaration, SyntaxKind.IdentifierName,SyntaxKind.IdentifierName);
         }
 
         #region Methods
@@ -49,6 +51,15 @@ namespace DuRevitTools.APIAnalyzer
         {
             TypeSyntax type = null;
 
+            //判断当前项目是否运营Revit.dll
+            var revitAPIRef = context.Compilation.References.Where(p => Path.GetFileNameWithoutExtension(p.Display) == "RevitAPI").FirstOrDefault();
+
+            if (revitAPIRef != null)
+            {
+                return;
+            }
+
+            //获取Type类型的Symbol
             var node = context.Node;
             switch (context.Node.Kind())
             {
@@ -70,37 +81,21 @@ namespace DuRevitTools.APIAnalyzer
                 return;
             }
 
-            Debug.Print(node.ToFullString());
-
+            //获取Symbol对象
             var symbol = context.SemanticModel.GetSymbolInfo(type).Symbol;
 
-            if (symbol == null)
+            //找到Symbol的话 Return
+            if (symbol != null)
             {
                 return;
             }
 
-            if (SymbolHelper.IsRevitAPIType(symbol,out _))
+
+            var namespaces = context.Node.SyntaxTree.GetRoot().ChildNodes().Where(p => p.Kind() == SyntaxKind.UsingDirective);
+
+            if (SymbolHelper.IsRevitAPITypeWithNameSpace(type.ToString(), namespaces,out var m))
             {
-                // Find Meta Data(RevitAPI.dll),judge whether it has a xml doc file;
-                var revitApiRef = context.Compilation.References.Where(p => Path.GetFileNameWithoutExtension(p.Display) == "RevitAPI").FirstOrDefault();
-
-                if (revitApiRef == null)
-                {
-                    return;
-                }
-
-                //Judge whether RevitAPI.dll exist;
-                if (!File.Exists(revitApiRef.Display))
-                {
-                    return;
-                }
-
-                if (revitApiRef == null || XmlDocHelper.IsXmlDocExist(revitApiRef.Display))
-                {
-                    return;
-                }
-
-                var diagnostic = Diagnostic.Create(Rule, node.GetLocation());
+                var diagnostic = Diagnostic.Create(Rule, node.GetLocation(), m.name);
                 context.ReportDiagnostic(diagnostic);
             }
         }

@@ -173,9 +173,17 @@
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
+    <ProjectReference Include="..\DuRevitTools.IService\DuRevitTools.IService.csproj">
+      <Project>{043DFF1C-9FC4-48D0-9AA3-D968166FE1F0}</Project>
+      <Name>DuRevitTools.IService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DuRevitTools.Model\DuRevitTools.Model.csproj">
       <Project>{1a2ee6a8-b36c-485b-8adc-c5dfa50d9cb5}</Project>
       <Name>DuRevitTools.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DuRevitTools.Service\DuRevitTools.Service.csproj">
+      <Project>{c0530e17-0b93-457c-9094-628129196fe8}</Project>
+      <Name>DuRevitTools.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
